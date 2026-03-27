@@ -1,0 +1,3 @@
+// This file is no longer used as the project has been migrated to React.
+// See src/main.jsx for the main entry point.
+console.log('Legacy main.js loaded. Please use the React app instead.');
