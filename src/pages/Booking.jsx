@@ -89,11 +89,11 @@ export default function Booking() {
   }
 
   return (
-    <div style={{ paddingTop: '120px', minHeight: '100vh', background: 'var(--bg)' }}>
-      <div className="container" style={{ maxWidth: '1000px', paddingBottom: '120px' }}>
+    <div style={{ paddingTop: '90px', minHeight: '100vh', background: 'var(--bg)' }}>
+      <div className="container" style={{ maxWidth: '1000px', paddingBottom: '80px', paddingTop: '40px' }}>
         
         {/* Progress Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '60px', position: 'relative' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px', position: 'relative', maxWidth: '400px', margin: '0 auto 60px' }}>
           <div style={{ position: 'absolute', top: '24px', left: 0, right: 0, height: '2px', background: '#e2e8f0', zIndex: 0 }} />
           {[1, 2, 3].map(s => (
             <div 
@@ -118,8 +118,8 @@ export default function Booking() {
           ))}
         </div>
 
-        <div className="premium-card" style={{ padding: '0', overflow: 'hidden', display: 'grid', gridTemplateColumns: '1.2fr 1fr' }}>
-          <div style={{ padding: '60px', background: 'white' }}>
+        <div className="premium-card grid-2" style={{ padding: '0', overflow: 'hidden', alignItems: 'stretch', gap: 0 }}>
+          <div style={{ padding: 'clamp(24px, 5vw, 60px)', background: 'white' }}>
             <AnimatePresence mode='wait'>
               {step === 1 && (
                 <motion.div 
@@ -144,13 +144,13 @@ export default function Booking() {
 
                   <div className="form-group">
                     <label style={{ fontWeight: '700', marginBottom: '12px', display: 'block' }}>Pet Type</label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '12px' }}>
                       {['dog', 'cat', 'other'].map(type => (
                         <button
                           key={type}
                           onClick={() => setFormData({...formData, pet_type: type})}
                           style={{
-                            padding: '20px',
+                            padding: '16px',
                             borderRadius: '16px',
                             border: `2px solid ${formData.pet_type === type ? 'var(--primary)' : '#f1f5f9'}`,
                             background: formData.pet_type === type ? 'var(--primary-soft)' : '#f8fafc',
@@ -276,7 +276,7 @@ export default function Booking() {
             </AnimatePresence>
           </div>
 
-          <div style={{ background: '#0f172a', padding: '60px', color: 'white', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ background: '#0f172a', padding: 'clamp(24px, 5vw, 60px)', color: 'white', display: 'flex', flexDirection: 'column' }}>
             <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '32px' }}>Booking Summary</h3>
             
             <div style={{ display: 'grid', gap: '24px', flex: 1 }}>

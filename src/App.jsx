@@ -8,12 +8,19 @@ import Services from './pages/Services';
 import Adoption from './pages/Adoption';
 import Booking from './pages/Booking';
 import { ToastProvider, useToast } from './context/ToastContext';
-import { PawPrint, User, LogIn, LayoutDashboard, LogOut } from 'lucide-react';
+import { PawPrint, User, LogIn, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
 
 function Navbar() {
+  const [isOpen, setIsOpen] = React.useState(false);
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   const location = useLocation();
   const { addToast } = useToast();
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -30,12 +37,14 @@ function Navbar() {
           <span className="logo-icon">🐾</span>
           <span className="logo-text">PetPal</span>
         </Link>
+        
         <nav className="nav-links">
           <Link to="/services" style={{ color: location.pathname === '/services' ? 'var(--primary)' : 'inherit' }}>Services</Link>
           <Link to="/adoption" style={{ color: location.pathname === '/adoption' ? 'var(--primary)' : 'inherit' }}>Adoption</Link>
           <Link to="/book" className="btn btn-outline" style={{ padding: '10px 24px', borderRadius: '12px' }}>Book Now</Link>
         </nav>
-        <div className="nav-actions" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+
+        <div className="nav-actions nav-actions-desktop" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
           {user ? (
             <>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', cursor: 'default' }}>
@@ -62,6 +71,30 @@ function Navbar() {
             </>
           )}
         </div>
+
+        <button className="mobile-menu-btn" onClick={toggleMenu}>
+          {isOpen ? <X size={32} /> : <Menu size={32} />}
+        </button>
+
+        {isOpen && (
+          <div className="mobile-menu">
+            <Link to="/services">Services</Link>
+            <Link to="/adoption">Adoption</Link>
+            <Link to="/book">Book Now</Link>
+            <hr style={{ border: 'none', borderTop: '1px solid var(--border)' }} />
+            {user ? (
+               <>
+                 <Link to="/admin">Dashboard</Link>
+                 <button onClick={handleLogout} style={{ textAlign: 'left', background: 'none', border: 'none', padding: 0, font: 'inherit', color: '#ef4444', cursor: 'pointer', fontSize: '1.25rem', fontWeight: 700 }}>Logout</button>
+               </>
+            ) : (
+               <>
+                 <Link to="/login">Login</Link>
+                 <Link to="/register" style={{ color: 'var(--primary)' }}>Join Now</Link>
+               </>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
@@ -69,8 +102,8 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer style={{ backgroundColor: '#0f172a', color: 'white', padding: '100px 0 60px' }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '60px' }}>
+    <footer style={{ backgroundColor: '#0f172a', color: 'white', padding: '80px 0 60px' }}>
+      <div className="container footer-grid">
         <div>
           <div style={{ fontSize: '1.75rem', fontWeight: '900', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '12px', letterSpacing: '-1px' }}>
             <span>🐾</span> PetPal
@@ -85,7 +118,7 @@ function Footer() {
           </div>
         </div>
         <div>
-          <h4 style={{ marginBottom: '24px', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#4f46e5' }}>Services</h4>
+          <h4 style={{ marginBottom: '24px', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#4f46e5', textAlign: 'inherit' }}>Services</h4>
           <ul style={{ listStyle: 'none', padding: 0, color: '#94a3b8', display: 'grid', gap: '16px' }}>
             <li><Link to="/services" style={{ color: 'inherit', textDecoration: 'none' }}>Pet Grooming</Link></li>
             <li><Link to="/services" style={{ color: 'inherit', textDecoration: 'none' }}>Luxury Boarding</Link></li>
@@ -93,7 +126,7 @@ function Footer() {
           </ul>
         </div>
         <div>
-          <h4 style={{ marginBottom: '24px', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#4f46e5' }}>Company</h4>
+          <h4 style={{ marginBottom: '24px', fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#4f46e5', textAlign: 'inherit' }}>Company</h4>
           <ul style={{ listStyle: 'none', padding: 0, color: '#94a3b8', display: 'grid', gap: '16px' }}>
             <li><Link to="/register" style={{ color: 'inherit', textDecoration: 'none' }}>Join Member</Link></li>
             <li><Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>Member Login</Link></li>

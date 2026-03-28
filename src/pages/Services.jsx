@@ -58,8 +58,8 @@ export default function Services() {
   }
 
   return (
-    <div style={{ paddingTop: '120px', minHeight: '100vh', background: 'var(--bg)' }}>
-      <header style={{ padding: '80px 0', textAlign: 'center', background: 'white', marginBottom: '60px' }}>
+    <div style={{ paddingTop: '90px', minHeight: '100vh', background: 'var(--bg)' }}>
+      <header className="responsive-section" style={{ textAlign: 'center', background: 'white', marginBottom: '60px' }}>
         <div className="container">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -68,14 +68,14 @@ export default function Services() {
           >
             World-Class Pet <span className="gradient-text">Care Services.</span>
           </motion.h1>
-          <p style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.25rem' }}>
+          <p style={{ maxWidth: '800px', margin: '0 auto', fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}>
             From luxury spa treatments to advanced hydrotherapy, discover our range of premium services designed to keep your pet happy, healthy, and thriving.
           </p>
         </div>
       </header>
 
       <section className="container" style={{ paddingBottom: '120px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
           {services.map((s, i) => (
             <motion.div 
               key={s.id}
@@ -99,7 +99,7 @@ export default function Services() {
               <h3 style={{ fontSize: '1.75rem', marginBottom: '16px' }}>{s.title}</h3>
               <p style={{ marginBottom: '32px', flex: 1 }}>{s.description}</p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '40px' }}>
+              <div className="grid-2" style={{ gap: '12px', marginBottom: '40px' }}>
                 {s.features && s.features.map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'var(--text-light)', fontWeight: '600' }}>
                     <CheckCircle2 size={16} color="var(--primary)" />
@@ -123,8 +123,8 @@ export default function Services() {
       </section>
 
       {/* Why Experience Our Packages */}
-      <section style={{ padding: '120px 0', background: 'var(--dark)', color: 'white' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      <section className="responsive-section" style={{ background: 'var(--dark)', color: 'white' }}>
+        <div className="container grid-2" style={{ gap: '80px', alignItems: 'center' }}>
           <div>
             <h2 style={{ color: 'white', marginBottom: '32px', fontSize: '3.5rem' }}>The PetPal <span style={{ color: 'var(--primary)' }}>Standards.</span></h2>
             <div style={{ display: 'grid', gap: '32px' }}>
@@ -145,7 +145,7 @@ export default function Services() {
               ))}
             </div>
           </div>
-          <div style={{ borderRadius: '32px', overflow: 'hidden', transform: 'rotate(2deg)', border: '12px solid rgba(255,255,255,0.02)' }}>
+          <div style={{ borderRadius: '32px', overflow: 'hidden', border: '12px solid rgba(255,255,255,0.02)' }}>
             <img 
               src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=1000" 
               alt="Premium Service" 

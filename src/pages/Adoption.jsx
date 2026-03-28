@@ -49,25 +49,25 @@ export default function Adoption() {
   return (
     <div style={{ paddingTop: '120px', minHeight: '100vh', background: 'var(--bg)' }}>
       {/* Search & Filter Header */}
-      <section style={{ padding: '60px 0', background: 'white', borderBottom: '1px solid var(--border)' }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
-          <div>
-            <h1 style={{ fontSize: '3rem', margin: 0 }}>Find Your <span className="gradient-text">Companion.</span></h1>
-            <p style={{ marginTop: '12px', fontSize: '1.2rem' }}>We have {pets.length} loving souls waiting for a second chance at life.</p>
+      <section className="responsive-section" style={{ background: 'white', borderBottom: '1px solid var(--border)' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '32px' }}>
+          <div style={{ flex: '1 1 400px' }}>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', margin: 0, lineHeight: 1 }}>Find Your <span className="gradient-text">Companion.</span></h1>
+            <p style={{ marginTop: '12px', fontSize: '1.1rem' }}>We have {pets.length} loving souls waiting for a second chance at life.</p>
           </div>
           
-          <div style={{ display: 'flex', gap: '12px', background: '#f1f5f9', padding: '8px', borderRadius: '16px' }}>
+          <div style={{ display: 'flex', gap: '8px', background: '#f1f5f9', padding: '6px', borderRadius: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
             {[
-              { id: 'all', label: 'All Pets', icon: <Heart size={18} /> },
-              { id: 'dog', label: 'Dogs', icon: <Dog size={18} /> },
-              { id: 'cat', label: 'Cats', icon: <Cat size={18} /> },
-              { id: 'other', label: 'Other', icon: <Bird size={18} /> }
+              { id: 'all', label: 'All', icon: <Heart size={16} /> },
+              { id: 'dog', label: 'Dogs', icon: <Dog size={16} /> },
+              { id: 'cat', label: 'Cats', icon: <Cat size={16} /> },
+              { id: 'other', label: 'Other', icon: <Bird size={16} /> }
             ].map(f => (
               <button
                 key={f.id}
                 onClick={() => setFilter(f.id)}
                 style={{
-                  padding: '12px 24px',
+                  padding: '10px 16px',
                   borderRadius: '12px',
                   border: 'none',
                   background: filter === f.id ? 'white' : 'transparent',
@@ -75,8 +75,9 @@ export default function Adoption() {
                   fontWeight: '700',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
+                  gap: '6px',
                   cursor: 'pointer',
+                  fontSize: '0.9rem',
                   boxShadow: filter === f.id ? '0 4px 12px rgba(0,0,0,0.05)' : 'none',
                   transition: '0.3s'
                 }}
@@ -88,10 +89,10 @@ export default function Adoption() {
         </div>
       </section>
 
-      <section className="container" style={{ padding: '80px 0 120px' }}>
+      <section className="container" style={{ padding: '40px 0 120px' }}>
         <motion.div 
           layout
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '40px' }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '32px' }}
         >
           <AnimatePresence mode='popLayout'>
             {filteredPets.map((pet) => (

@@ -21,8 +21,7 @@ const pets = [
 function Hero() {
   const navigate = useNavigate();
   return (
-    <section style={{ 
-      padding: '180px 0 100px', 
+    <section className="responsive-section" style={{ 
       minHeight: '90vh', 
       display: 'flex', 
       alignItems: 'center',
@@ -30,7 +29,7 @@ function Hero() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
+      <div className="container grid-2" style={{ alignItems: 'center' }}>
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -138,16 +137,18 @@ export default function Home() {
       <Hero />
 
       {/* Services Preview Section */}
-      <section style={{ padding: '140px 0', background: 'white' }}>
+      <section className="responsive-section" style={{ background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '80px' }}>
+          <div className="grid-2" style={{ alignItems: 'flex-end', marginBottom: '80px' }}>
             <div style={{ maxWidth: '600px' }}>
               <h2 style={{ marginBottom: '24px' }}>Premier Pet Care <span className="gradient-text">Excellence.</span></h2>
               <p>Tailored treatments in a safe, loving environment.</p>
             </div>
-            <Link to="/services" className="btn btn-outline" style={{ borderRadius: '12px' }}>
-              View All Services <ArrowRight size={18} />
-            </Link>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Link to="/services" className="btn btn-outline" style={{ borderRadius: '12px' }}>
+                View All Services <ArrowRight size={18} />
+              </Link>
+            </div>
           </div>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
@@ -175,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* Adoption Preview Section */}
-      <section style={{ padding: '140px 0', background: '#f8fafc' }}>
+      <section className="responsive-section" style={{ background: '#f8fafc' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '80px' }}>
             <h2 style={{ marginBottom: '24px' }}>Find Your Forever <span className="gradient-text">Friend.</span></h2>
@@ -218,8 +219,8 @@ export default function Home() {
       </section>
 
       {/* Why Us Section */}
-      <section style={{ padding: '140px 0', background: '#0f172a', color: 'white' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
+      <section className="responsive-section" style={{ background: '#0f172a', color: 'white' }}>
+        <div className="container grid-2">
           <div>
             <h2 style={{ color: 'white', marginBottom: '40px' }}>Experience World-Class <span style={{ color: 'var(--primary)' }}>Pet Care.</span></h2>
             <div style={{ display: 'grid', gap: '32px' }}>
@@ -252,7 +253,7 @@ export default function Home() {
           <div style={{ background: 'var(--primary)', padding: '80px', borderRadius: '40px', textAlign: 'center', color: 'white' }}>
             <h2 style={{ color: 'white', fontSize: '3.5rem', marginBottom: '24px' }}>Ready to Get Started?</h2>
             <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.25rem', marginBottom: '48px', maxWidth: '600px', margin: '0 auto 48px' }}>Join thousands of happy pet owners and experience the PetPal difference today.</p>
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+            <div className="grid-2" style={{ gap: '20px', justifyContent: 'center' }}>
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
