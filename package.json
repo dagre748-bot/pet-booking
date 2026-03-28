@@ -8,7 +8,8 @@
     "server": "nodemon server/index.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server/index.js"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",

@@ -35,7 +35,7 @@ export default function Register() {
     addToast('Creating your account...', 'info');
     
     try {
-      await axios.post('http://localhost:5000/api/auth/register', {
+      await axios.post('/api/auth/register', {
         username: formData.username,
         email: formData.email,
         password: formData.password,

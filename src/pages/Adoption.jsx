@@ -18,7 +18,7 @@ export default function Adoption() {
 
   const fetchPets = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/pets');
+      const response = await axios.get('/api/pets');
       setPets(response.data);
     } catch (err) {
       addToast('Failed to load pets.', 'error');

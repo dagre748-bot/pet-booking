@@ -34,10 +34,10 @@ export default function AdminDashboard() {
       const headers = { Authorization: `Bearer ${token}` };
       
       const [bookingsRes, usersRes, petsRes, settingsRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/bookings', { headers }),
-        axios.get('http://localhost:5000/api/users', { headers }),
-        axios.get('http://localhost:5000/api/pets'),
-        axios.get('http://localhost:5000/api/settings', { headers })
+        axios.get('/api/bookings', { headers }),
+        axios.get('/api/users', { headers }),
+        axios.get('/api/pets'),
+        axios.get('/api/settings', { headers })
       ]);
 
       setData({
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('token');
       // Fix: Use correct plural or singular based on API
       const endpoint = type === 'user' ? `users/${id}` : type === 'booking' ? `bookings/${id}` : `pets/${id}`;
-      await axios.patch(`http://localhost:5000/api/${endpoint}`, updates, {
+      await axios.patch(`/api/${endpoint}`, updates, {
         headers: { Authorization: `Bearer ${token}` }
       });
       addToast('Update successful!', 'success');
@@ -77,9 +77,9 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('token');
       const headers = { Authorization: `Bearer ${token}` };
       if (petData.id) {
-        await axios.patch(`http://localhost:5000/api/pets/${petData.id}`, petData, { headers });
+        await axios.patch(`/api/pets/${petData.id}`, petData, { headers });
       } else {
-        await axios.post('http://localhost:5000/api/pets', petData, { headers });
+        await axios.post('/api/pets', petData, { headers });
       }
       addToast('Pet data saved!', 'success');
       setEditingItem(null);
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
     if (!window.confirm('Are you sure you want to delete this?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/${type}s/${id}`, {
+      await axios.delete(`/api/${type}s/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       addToast('Deleted successfully.', 'success');
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
   const handleSaveSettings = async (settings) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.patch('http://localhost:5000/api/settings', settings, {
+      await axios.patch('/api/settings', settings, {
         headers: { Authorization: `Bearer ${token}` }
       });
       addToast('Settings saved!', 'success');

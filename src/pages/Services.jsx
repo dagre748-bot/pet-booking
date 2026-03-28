@@ -31,7 +31,7 @@ export default function Services() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/services');
+      const response = await axios.get('/api/services');
       setServices(response.data);
     } catch (err) {
       addToast('Failed to load services.', 'error');

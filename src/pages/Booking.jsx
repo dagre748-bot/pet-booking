@@ -29,7 +29,7 @@ export default function Booking() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/services');
+      const response = await axios.get('/api/services');
       setServices(response.data);
       
       // Handle pre-selection or default
@@ -68,7 +68,7 @@ export default function Booking() {
     setSubmitLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/bookings', formData, {
+      await axios.post('/api/bookings', formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       addToast('Booking confirmed successfully!', 'success');

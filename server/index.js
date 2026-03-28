@@ -5,13 +5,21 @@ import pkg from 'pg';
 const { Pool } = pkg;
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve Static Frontend Files
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
 
 // Auth Middleware
 const authenticateToken = (req, res, next) => {
@@ -275,6 +283,11 @@ app.patch('/api/settings', authenticateToken, isAdmin, async (req, res) => {
 // Test Route
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// For any other request, send the index.html file (client-side routing)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.listen(PORT, () => {
