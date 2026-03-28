@@ -39,9 +39,10 @@ function Navbar() {
         </Link>
         
         <nav className="nav-links">
+          <Link to="/" style={{ color: location.pathname === '/' ? 'var(--primary)' : 'inherit' }}>Home</Link>
           <Link to="/services" style={{ color: location.pathname === '/services' ? 'var(--primary)' : 'inherit' }}>Services</Link>
           <Link to="/adoption" style={{ color: location.pathname === '/adoption' ? 'var(--primary)' : 'inherit' }}>Adoption</Link>
-          <Link to="/book" className="btn btn-outline" style={{ padding: '10px 24px', borderRadius: '12px' }}>Book Now</Link>
+          <Link to="/book" className="btn btn-outline" style={{ padding: '8px 20px', borderRadius: '12px' }}>Book Now</Link>
         </nav>
 
         <div className="nav-actions nav-actions-desktop" style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
@@ -78,9 +79,10 @@ function Navbar() {
 
         {isOpen && (
           <div className="mobile-menu">
-            <Link to="/services">Services</Link>
-            <Link to="/adoption">Adoption</Link>
-            <Link to="/book">Book Now</Link>
+            <Link to="/" style={{ color: location.pathname === '/' ? 'var(--primary)' : 'inherit' }}>Home</Link>
+            <Link to="/services" style={{ color: location.pathname === '/services' ? 'var(--primary)' : 'inherit' }}>Services</Link>
+            <Link to="/adoption" style={{ color: location.pathname === '/adoption' ? 'var(--primary)' : 'inherit' }}>Adoption</Link>
+            <Link to="/book" style={{ color: location.pathname === '/book' ? 'var(--primary)' : 'inherit' }}>Book Now</Link>
             <hr style={{ border: 'none', borderTop: '1px solid var(--border)' }} />
             {user ? (
                <>
