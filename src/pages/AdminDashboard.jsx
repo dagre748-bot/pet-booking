@@ -447,16 +447,16 @@ function StatCard({ label, value, color }) {
 
 function Table({ headers, data, renderRow }) {
   return (
-    <div className="premium-card" style={{ padding: '0', overflow: 'hidden' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <div className="premium-card" style={{ padding: '0', overflowX: 'auto', border: '1px solid #e2e8f0' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
         <thead style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
           <tr>
-            {headers.map(h => <th key={h} style={{ textAlign: 'left', padding: '24px', fontSize: '0.8rem', fontWeight: '800', textTransform: 'uppercase', color: '#475569' }}>{h}</th>)}
+            {headers.map(h => <th key={h} style={{ textAlign: 'left', padding: '20px 24px', fontSize: '0.75rem', fontWeight: '800', textTransform: 'uppercase', color: '#475569' }}>{h}</th>)}
           </tr>
         </thead>
         <tbody style={{ backgroundColor: 'white' }}>
           {data.length === 0 ? (
-            <tr><td colSpan={headers.length} style={{ padding: '60px', textAlign: 'center', color: '#64748b' }}>No records found.</td></tr>
+            <tr><td colSpan={headers.length} style={{ padding: '40px', textAlign: 'center', color: '#64748b' }}>No records found.</td></tr>
           ) : data.map(renderRow)}
         </tbody>
       </table>

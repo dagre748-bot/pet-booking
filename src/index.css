@@ -322,6 +322,9 @@ p {
   flex: 1;
   padding: 140px 80px 80px;
   transition: margin-left 0.3s ease;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .table-responsive {

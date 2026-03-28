@@ -137,7 +137,8 @@ function Footer() {
         </div>
       </div>
       <div className="container" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '80px', paddingTop: '40px', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
-        &copy; 2026 PetPal Premier Care Services. All rights reserved.
+        <p style={{ marginBottom: '8px' }}>&copy; 2026 PetPal Premier Care Services. All rights reserved.</p>
+        <p style={{ color: '#94a3b8', fontWeight: '500' }}>Developed by Deepak Agre 2026</p>
       </div>
     </footer>
   );
