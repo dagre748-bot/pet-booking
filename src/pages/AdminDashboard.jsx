@@ -140,11 +140,31 @@ export default function AdminDashboard() {
 
       {/* Sidebar */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'active' : ''}`}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '48px', fontSize: '1.25rem', fontWeight: '900', letterSpacing: '-1px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '40px', fontSize: '1.25rem', fontWeight: '900', letterSpacing: '-1px' }}>
           <ShieldCheck color="#4f46e5" size={28} />
           <span>Staff Portal</span>
         </div>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div
+            onClick={() => navigate('/')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              color: '#94a3b8',
+              fontWeight: '600',
+              transition: '0.2s',
+              fontSize: '0.9rem',
+              border: '1px solid rgba(255,255,255,0.05)',
+              marginBottom: '12px'
+            }}
+          >
+            <Globe size={16} />
+            <span>Go to Main Site</span>
+          </div>
           {menuItems.map(item => (
             <div
               key={item.id}
