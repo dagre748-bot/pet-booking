@@ -30,6 +30,8 @@ function Navbar() {
     }, 500);
   };
 
+  if (location.pathname.startsWith('/admin')) return null;
+
   return (
     <header className="navbar">
       <div className="container navbar-content">
@@ -103,6 +105,9 @@ function Navbar() {
 }
 
 function Footer() {
+  const location = useLocation();
+  if (location.pathname.startsWith('/admin')) return null;
+
   return (
     <footer style={{ backgroundColor: '#0f172a', color: 'white', padding: '80px 0 60px' }}>
       <div className="container footer-grid">
