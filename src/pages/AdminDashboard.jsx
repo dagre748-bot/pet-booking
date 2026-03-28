@@ -3,7 +3,7 @@ import axios from 'axios';
 import { 
   Users, Calendar, CheckCircle, Clock, Trash2, 
   Search, RefreshCw, LayoutDashboard, Settings, 
-  LogOut, ShieldCheck, Plus, Pencil, Dog, Briefcase, Globe
+  LogOut, ShieldCheck, Plus, Pencil, Dog, Briefcase, Globe, Menu, X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
@@ -133,10 +133,16 @@ export default function AdminDashboard() {
 
   return (
     <div className="admin-layout">
-      {/* Sidebar Toggle for Mobile */}
-      <button className="mobile-sidebar-toggle" onClick={toggleSidebar}>
-        {sidebarOpen ? <X size={24} /> : <LayoutDashboard size={24} />}
-      </button>
+      {/* Admin Mobile Header */}
+      <div className="admin-mobile-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '900', color: '#0f172a' }}>
+           <ShieldCheck color="#4f46e5" size={24} />
+           <span>Staff Portal</span>
+        </div>
+        <button onClick={toggleSidebar} style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', color: '#0f172a' }}>
+          {sidebarOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
 
       {/* Sidebar */}
       <aside className={`admin-sidebar ${sidebarOpen ? 'active' : ''}`}>
