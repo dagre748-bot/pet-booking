@@ -286,7 +286,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // For any other request, send the index.html file (client-side routing)
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
