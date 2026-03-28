@@ -15,8 +15,11 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [processingId, setProcessingId] = useState(null);
   const [editingItem, setEditingItem] = useState(null); // { type: 'user' | 'pet', data: {} }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const { addToast } = useToast();
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -57,7 +60,6 @@ export default function AdminDashboard() {
     setProcessingId(id);
     try {
       const token = localStorage.getItem('token');
-      // Fix: Use correct plural or singular based on API
       const endpoint = type === 'user' ? `users/${id}` : type === 'booking' ? `bookings/${id}` : `pets/${id}`;
       await axios.patch(`/api/${endpoint}`, updates, {
         headers: { Authorization: `Bearer ${token}` }
@@ -124,42 +126,46 @@ export default function AdminDashboard() {
 
   const menuItems = [
     { id: 'bookings', label: 'Bookings', icon: <Calendar size={20} /> },
-    { id: 'clients', label: 'Clients', icon: <Users size={20} /> },
-    { id: 'pets', label: 'Pets & Gallery', icon: <Dog size={20} /> },
-    { id: 'settings', label: 'Site Settings', icon: <Settings size={20} /> },
+    { id: 'clients', label: 'Clients', icon: <Users size={16} /> },
+    { id: 'pets', label: 'Pets & Gallery', icon: <Dog size={16} /> },
+    { id: 'settings', label: 'Site Settings', icon: <Settings size={16} /> },
   ];
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <div className="admin-layout">
+      {/* Sidebar Toggle for Mobile */}
+      <button className="mobile-sidebar-toggle" onClick={toggleSidebar}>
+        {sidebarOpen ? <X size={24} /> : <LayoutDashboard size={24} />}
+      </button>
+
       {/* Sidebar */}
-      <aside style={{ width: '280px', backgroundColor: '#0f172a', color: 'white', padding: '40px 24px', position: 'fixed', height: '100vh', zIndex: 100 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '48px', fontSize: '1.5rem', fontWeight: '900', letterSpacing: '-1px' }}>
-          <ShieldCheck color="#4f46e5" size={32} />
+      <aside className={`admin-sidebar ${sidebarOpen ? 'active' : ''}`}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '48px', fontSize: '1.25rem', fontWeight: '900', letterSpacing: '-1px' }}>
+          <ShieldCheck color="#4f46e5" size={28} />
           <span>Staff Portal</span>
         </div>
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {menuItems.map(item => (
-            <motion.div
+            <div
               key={item.id}
-              whileHover={{ x: 5 }}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '16px',
-                padding: '16px 20px',
-                borderRadius: '16px',
+                gap: '12px',
+                padding: '12px 16px',
+                borderRadius: '12px',
                 cursor: 'pointer',
                 backgroundColor: activeTab === item.id ? '#4f46e5' : 'transparent',
-                color: activeTab === item.id ? 'white' : 'inherit',
+                color: activeTab === item.id ? 'white' : '#94a3b8',
                 fontWeight: activeTab === item.id ? '700' : '600',
-                opacity: activeTab === item.id ? 1 : 0.6,
-                transition: '0.2s'
+                transition: '0.2s',
+                fontSize: '0.9rem'
               }}
             >
-              <span style={{ color: activeTab === item.id ? 'white' : 'inherit' }}>{item.icon}</span>
+              {item.icon}
               <span>{item.label}</span>
-            </motion.div>
+            </div>
           ))}
         </nav>
         <div style={{ marginTop: 'auto', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '32px' }}>
@@ -171,83 +177,73 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main Content */}
-      <main style={{ marginLeft: '280px', flex: 1, padding: '140px 80px 80px', minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '60px' }}>
+      <main className="admin-main">
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <h1 style={{ fontSize: '3.5rem', marginBottom: '16px', fontWeight: '900', color: '#0f172a', letterSpacing: '-2px' }}>
+            <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', marginBottom: '8px', fontWeight: '900', color: '#0f172a', letterSpacing: '-1px' }}>
               {menuItems.find(m => m.id === activeTab)?.label}
             </h1>
-            <p style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: '500' }}>Platform management and control center.</p>
+            <p style={{ fontSize: '1rem', color: '#64748b', fontWeight: '500' }}>Administrative Control Center</p>
           </div>
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <button 
             onClick={fetchAllData} 
             className="btn btn-outline" 
-            style={{ borderRadius: '12px', padding: '12px 24px' }}
+            style={{ borderRadius: '12px', padding: '10px 20px', fontSize: '0.9rem' }}
           >
-            <RefreshCw size={18} className={loading ? 'spin' : ''} /> Sync Data
-          </motion.button>
+            <RefreshCw size={16} className={loading ? 'spin' : ''} /> Sync
+          </button>
         </header>
 
         <AnimatePresence mode="wait">
           {activeTab === 'bookings' && (
-            <motion.div key="bookings" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px', marginBottom: '60px' }}>
-                <StatCard label="Total Requests" value={data.bookings.length} color="#4f46e5" />
+            <motion.div key="bookings" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <div className="stat-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '40px' }}>
+                <StatCard label="Requests" value={data.bookings.length} color="#4f46e5" />
                 <StatCard label="Pending" value={data.bookings.filter(b => b.status === 'pending').length} color="#f59e0b" />
-                <StatCard label="Completed" value={data.bookings.filter(b => b.status === 'completed').length} color="#10b981" />
+                <StatCard label="Done" value={data.bookings.filter(b => b.status === 'completed').length} color="#10b981" />
               </div>
-              <Table 
-                headers={['Owner & Pet', 'Service', 'Date', 'Status', 'Actions']}
-                data={data.bookings}
-                renderRow={(b) => (
-                  <tr key={b.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '20px 32px' }}>
-                      <div style={{ fontWeight: '800', color: '#0f172a' }}>{b.owner_name}</div>
-                      <div style={{ fontSize: '0.85rem', color: '#64748b' }}>{b.pet_name} • {b.pet_type}</div>
-                    </td>
-                    <td style={{ padding: '20px 32px', fontWeight: '600', color: '#0f172a' }}>{b.service}</td>
-                    <td style={{ padding: '20px 32px', color: '#475569' }}>{new Date(b.booking_date).toLocaleDateString()}</td>
-                    <td style={{ padding: '20px 32px' }}><StatusBadge status={b.status} /></td>
-                    <td style={{ padding: '20px 32px' }}>
-                      <motion.button 
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        disabled={processingId === b.id}
-                        onClick={() => handleStatusUpdate('booking', b.id, { status: b.status === 'pending' ? 'completed' : 'pending' })}
-                        className="btn btn-outline"
-                        style={{ padding: '8px 16px', fontSize: '0.75rem', borderRadius: '10px' }}
-                      >
-                        {processingId === b.id ? <RefreshCw size={14} className="spin" /> : (b.status === 'pending' ? <ShieldCheck size={14} /> : <Clock size={14} />)}
-                        <span style={{ marginLeft: '8px' }}>{b.status === 'pending' ? 'Approve' : 'Revert'}</span>
-                      </motion.button>
-                    </td>
-                  </tr>
-                )}
-              />
+              <div className="table-responsive">
+                <Table 
+                  headers={['Owner / Pet', 'Service', 'Date', 'Status', 'Actions']}
+                  data={data.bookings}
+                  renderRow={(b) => (
+                    <tr key={b.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '16px 24px' }}>
+                        <div style={{ fontWeight: '800', color: '#0f172a', fontSize: '0.9rem' }}>{b.owner_name}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{b.pet_name} • {b.pet_type}</div>
+                      </td>
+                      <td style={{ padding: '16px 24px', fontWeight: '600', color: '#0f172a', fontSize: '0.9rem' }}>{b.service}</td>
+                      <td style={{ padding: '16px 24px', color: '#475569', fontSize: '0.85rem' }}>{new Date(b.booking_date).toLocaleDateString()}</td>
+                      <td style={{ padding: '16px 24px' }}><StatusBadge status={b.status} /></td>
+                      <td style={{ padding: '16px 24px' }}>
+                        <button 
+                          disabled={processingId === b.id}
+                          onClick={() => handleStatusUpdate('booking', b.id, { status: b.status === 'pending' ? 'completed' : 'pending' })}
+                          className="btn btn-outline"
+                          style={{ padding: '6px 12px', fontSize: '0.7rem', borderRadius: '8px' }}
+                        >
+                          {processingId === b.id ? <RefreshCw size={12} className="spin" /> : (b.status === 'pending' ? 'Approve' : 'Revert')}
+                        </button>
+                      </td>
+                    </tr>
+                  )}
+                />
+              </div>
             </motion.div>
           )}
 
           {activeTab === 'clients' && (
-            <motion.div key="clients" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <motion.div key="clients" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="table-responsive">
               <Table 
-                headers={['Username', 'Email', 'Role', 'Joined', 'Actions']}
+                headers={['User', 'Email', 'Role', 'Actions']}
                 data={data.users}
                 renderRow={(u) => (
                   <tr key={u.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '20px 32px', fontWeight: '800', color: '#0f172a' }}>{u.username}</td>
-                    <td style={{ padding: '20px 32px', color: '#475569' }}>{u.email}</td>
-                    <td style={{ padding: '20px 32px' }}><span style={{ padding: '4px 12px', borderRadius: '100px', backgroundColor: u.role === 'admin' ? '#fee2e2' : '#f1f5f9', color: u.role === 'admin' ? '#991b1b' : '#475569', fontSize: '0.75rem', fontWeight: '800' }}>{u.role}</span></td>
-                    <td style={{ padding: '20px 32px', color: '#64748b' }}>{new Date(u.created_at).toLocaleDateString()}</td>
-                    <td style={{ padding: '20px 32px' }}>
-                        <button 
-                          onClick={() => setEditingItem({ type: 'user', data: u })}
-                          className="btn btn-outline" 
-                          style={{ padding: '8px 12px' }}
-                        >
-                          <Pencil size={14} />
-                        </button>
+                    <td style={{ padding: '16px 24px', fontWeight: '800', color: '#0f172a', fontSize: '0.9rem' }}>{u.username}</td>
+                    <td style={{ padding: '16px 24px', color: '#475569', fontSize: '0.85rem' }}>{u.email}</td>
+                    <td style={{ padding: '16px 24px' }}><span style={{ padding: '4px 10px', borderRadius: '100px', backgroundColor: u.role === 'admin' ? '#fee2e2' : '#f1f5f9', color: u.role === 'admin' ? '#991b1b' : '#475569', fontSize: '0.7rem', fontWeight: '800' }}>{u.role}</span></td>
+                    <td style={{ padding: '16px 24px' }}>
+                        <button onClick={() => setEditingItem({ type: 'user', data: u })} className="btn btn-outline" style={{ padding: '6px' }}><Pencil size={14} /></button>
                     </td>
                   </tr>
                 )}
@@ -256,58 +252,45 @@ export default function AdminDashboard() {
           )}
 
           {activeTab === 'pets' && (
-            <motion.div key="pets" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-              <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'flex-end' }}>
+            <motion.div key="pets" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'flex-end' }}>
                 <button 
                   onClick={() => setEditingItem({ type: 'pet', data: { name: '', type: 'dog', breed: '', age: '', char: '', img: '', description: '', status: 'available' } })}
                   className="btn btn-primary" 
-                  style={{ padding: '12px 24px', borderRadius: '12px' }}
+                  style={{ padding: '10px 20px', borderRadius: '10px', fontSize: '0.9rem' }}
                 >
-                  <Plus size={18} /> Add New Pet
+                  <Plus size={18} /> Add Pet
                 </button>
               </div>
-              <Table 
-                headers={['Pet Info', 'Type/Breed', 'Status', 'Actions']}
-                data={data.pets}
-                renderRow={(p) => (
-                  <tr key={p.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
-                    <td style={{ padding: '20px 32px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        <img src={p.img} style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }} />
-                        <div>
-                          <div style={{ fontWeight: '800', color: '#0f172a' }}>{p.name}</div>
-                          <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{p.age} • {p.char}</div>
+              <div className="table-responsive">
+                <Table 
+                  headers={['Pet', 'Type/Breed', 'Status', 'Actions']}
+                  data={data.pets}
+                  renderRow={(p) => (
+                    <tr key={p.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                      <td style={{ padding: '16px 24px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <img src={p.img} style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover' }} />
+                          <div style={{ fontWeight: '800', color: '#0f172a', fontSize: '0.9rem' }}>{p.name}</div>
                         </div>
-                      </div>
-                    </td>
-                    <td style={{ padding: '20px 32px', color: '#475569' }}>{p.type} / {p.breed}</td>
-                    <td style={{ padding: '20px 32px' }}><StatusBadge status={p.status || 'available'} /></td>
-                    <td style={{ padding: '20px 32px' }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <button 
-                          onClick={() => setEditingItem({ type: 'pet', data: p })}
-                          className="btn btn-outline" 
-                          style={{ padding: '8px' }}
-                        >
-                          <Pencil size={14} />
-                        </button>
-                        <button 
-                          onClick={() => handleDelete('pet', p.id)}
-                          className="btn btn-outline" 
-                          style={{ padding: '8px', border: '1px solid #fee2e2', color: '#ef4444' }}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              />
+                      </td>
+                      <td style={{ padding: '16px 24px', color: '#475569', fontSize: '0.85rem' }}>{p.type} / {p.breed}</td>
+                      <td style={{ padding: '16px 24px' }}><StatusBadge status={p.status || 'available'} /></td>
+                      <td style={{ padding: '16px 24px' }}>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button onClick={() => setEditingItem({ type: 'pet', data: p })} className="btn btn-outline" style={{ padding: '6px' }}><Pencil size={14} /></button>
+                          <button onClick={() => handleDelete('pet', p.id)} className="btn btn-outline" style={{ padding: '6px', border: '1px solid #fee2e2', color: '#ef4444' }}><Trash2 size={14} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                />
+              </div>
             </motion.div>
           )}
 
           {activeTab === 'settings' && (
-            <motion.div key="settings" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+            <motion.div key="settings" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <SettingsForm settings={data.settings} onSave={(s) => handleSaveSettings(s)} />
             </motion.div>
           )}
